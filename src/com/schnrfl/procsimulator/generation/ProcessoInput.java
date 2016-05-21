@@ -5,18 +5,24 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.schnrfl.procsimulator.simulation.Simulador;
 
 /**
- * Classe que representa as entradas da simulação, oriundas do arquivo .DAT
+ * Classe que representa as entradas da simulaï¿½ï¿½o, oriundas do arquivo .DAT
  */
 public class ProcessoInput {
 
 	private int numero;
 	private int ciclos;
 	private int tipo;
+	private int tempoEspera;
 
 	public ProcessoInput(int numero, int cliclos, int tipo) {
 		this.numero = numero;
 		this.ciclos = cliclos;
 		this.tipo = tipo;
+		
+		int min = Simulador.PROCESSO_TEMPO_ESPERA_DE;
+		int max = Simulador.PROCESSO_TEMPO_ESPERA_ATE;
+		
+		tempoEspera = ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 
 	public int getNumero() {
@@ -32,10 +38,7 @@ public class ProcessoInput {
 	}
 	
 	public int getTempoEspera() {
-		int min = Simulador.PROCESSO_TEMPO_ESPERA_DE;
-		int max = Simulador.PROCESSO_TEMPO_ESPERA_ATE;
-		
-		return ThreadLocalRandom.current().nextInt(min, max + 1);
+		return tempoEspera;
 	}
 
 	@Override

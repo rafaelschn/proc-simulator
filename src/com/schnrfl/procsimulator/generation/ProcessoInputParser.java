@@ -6,9 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /*
- * Classe responsável pela leitura do arquivo .dat
+ * Classe responsï¿½vel pela leitura do arquivo .dat
  * */
 public class ProcessoInputParser implements Gerador {
 
@@ -43,7 +44,10 @@ public class ProcessoInputParser implements Gerador {
 			throw new RuntimeException("O formato de cada linha da entrada deve ser numero;cliclos;tipo!");
 
 		int numero = Integer.parseInt(fields[0]);
-
+		
+		if (numero < -1)
+			throw new RuntimeException("PID deve ser >= 0!");
+			
 		if (numero == -1)
 			return null;
 
@@ -58,7 +62,7 @@ public class ProcessoInputParser implements Gerador {
 
 	@Override
 	public Collection<ProcessoInput> getProcessos() {
-		return processos;
+		return Collections.unmodifiableCollection(processos);
 	}
 
 }
