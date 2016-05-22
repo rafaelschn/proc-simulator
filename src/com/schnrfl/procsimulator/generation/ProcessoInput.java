@@ -2,26 +2,28 @@ package com.schnrfl.procsimulator.generation;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.schnrfl.procsimulator.simulation.Simulador;
+import com.schnrfl.procsimulator.model.Evento;
+import com.schnrfl.procsimulator.model.ProcessoTipo;
+import com.schnrfl.procsimulator.simulation.SimulacaoProcessos;
 
 /**
- * Classe que representa as entradas da simula��o, oriundas do arquivo .DAT
+ * Classe que representa as entradas da simulação, oriundas do arquivo .DAT
  */
-public class ProcessoInput {
+public class ProcessoInput implements Evento {
 
 	private int numero;
 	private int ciclos;
-	private int tipo;
+	private ProcessoTipo tipo;
 	private int tempoEspera;
 
 	public ProcessoInput(int numero, int cliclos, int tipo) {
 		this.numero = numero;
 		this.ciclos = cliclos;
-		this.tipo = tipo;
-		
-		int min = Simulador.PROCESSO_TEMPO_ESPERA_DE;
-		int max = Simulador.PROCESSO_TEMPO_ESPERA_ATE;
-		
+		this.tipo = ProcessoTipoFactory.build(tipo);
+
+		int min = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_DE;
+		int max = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_ATE;
+
 		tempoEspera = ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 
@@ -33,10 +35,10 @@ public class ProcessoInput {
 		return ciclos;
 	}
 
-	public int getTipo() {
+	public ProcessoTipo getTipo() {
 		return tipo;
 	}
-	
+
 	public int getTempoEspera() {
 		return tempoEspera;
 	}
@@ -44,14 +46,15 @@ public class ProcessoInput {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+
 		sb.append("[");
 		sb.append("ProcessoInput");
 		sb.append(" numero: " + numero);
 		sb.append(" ciclos: " + ciclos);
 		sb.append(" tipo: " + tipo);
-		sb.append(" TE: "+getTempoEspera());
+		sb.append(" TE: " + getTempoEspera());
 		sb.append("]");
-		
+
 		return sb.toString();
 	}
 

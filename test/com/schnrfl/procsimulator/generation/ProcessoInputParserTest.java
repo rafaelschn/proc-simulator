@@ -10,7 +10,9 @@ import org.junit.Test;
 public class ProcessoInputParserTest {
 	@Test
 	public void deveCarregarNumeroDeProcessosCorretamente() throws FileNotFoundException, IOException {
-		ProcessoInputParser generator = new ProcessoInputParser("files/entrada_test_4_processos.dat");
-		assertEquals(generator.getProcessos().size(), 4);
+		String fileName = "files/entrada_test_4_processos.dat";
+		GeradorArquivoDat gerador = new GeradorArquivoDat(fileName, new ParserArquivoDat());
+		
+		assertEquals(gerador.getElementos().size(), 4);
 	}
 }
