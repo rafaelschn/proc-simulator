@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import com.schnrfl.procsimulator.model.Evento;
+import com.schnrfl.procsimulator.model.ProcessoEvento;
 
 /*
  * Classe responsável pela leitura do arquivo .DAT para construção dos eventos iniciais da simulação
@@ -31,7 +32,7 @@ public class GeradorArquivoDat implements Gerador {
 			String linha;
 			eventos = new LinkedList<>();
 			while ((linha = br.readLine()) != null) {
-				ProcessoInput processo = parser.parse(linha, pid++);
+				ProcessoEvento processo = parser.parse(linha, pid++);
 
 				if (processo == null)
 					break;
