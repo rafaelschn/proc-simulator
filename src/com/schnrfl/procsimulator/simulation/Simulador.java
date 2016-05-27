@@ -12,5 +12,9 @@ public class Simulador {
 	public long getTempoExecucao() {
 		return simulacao.getTempoExecucao();
 	}
+	
+	public Resultado getResultado() {
+		return simulacao.getResultado();
+	}
 
 }

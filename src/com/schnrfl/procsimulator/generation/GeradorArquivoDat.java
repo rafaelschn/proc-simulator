@@ -10,7 +10,8 @@ import com.schnrfl.procsimulator.model.Evento;
 import com.schnrfl.procsimulator.model.ProcessoEvento;
 
 /*
- * Classe responsável pela leitura do arquivo .DAT para construção dos eventos iniciais da simulação
+ * Classe responsável pela leitura do arquivo .DAT 
+ * para construção dos eventos iniciais (exógenos) da simulação
  * */
 public class GeradorArquivoDat implements Gerador {
 
@@ -31,13 +32,17 @@ public class GeradorArquivoDat implements Gerador {
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			String linha;
 			eventos = new LinkedList<>();
+			long instante = 0;
 			while ((linha = br.readLine()) != null) {
-				ProcessoEvento processo = parser.parse(linha, pid++);
-
-				if (processo == null)
+				ProcessoEvento evento = parser.parse(linha, pid++, instante);
+				
+				//Achou processo com pid = -1 -> finaliza leitura
+				if (evento == null)
 					break;
+				
+				instante = evento.getTempoDoEvento();
 
-				eventos.add(processo);
+				eventos.add(evento);
 			}
 		}
 	}

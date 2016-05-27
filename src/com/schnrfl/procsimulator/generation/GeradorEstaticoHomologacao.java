@@ -7,7 +7,7 @@ import com.schnrfl.procsimulator.model.ProcessoEvento;
 import com.schnrfl.procsimulator.model.ProcessoTipo;
 import com.schnrfl.procsimulator.model.TipoEventoNovoProcesso;
 
-public class GeradorEstatico implements Gerador {
+public class GeradorEstaticoHomologacao implements Gerador {
 
 	@Override
 	public LinkedList<Evento> getElementos() {
@@ -15,19 +15,19 @@ public class GeradorEstatico implements Gerador {
 		
 		long instante = 0;
 		
-		ProcessoTipo cpu = ProcessoTipoFactory.build(0);
-		ProcessoTipo io = ProcessoTipoFactory.build(1);
+		ProcessoTipo cpu = ProcessoTipoFactoryHomolog.build(0);
+		ProcessoTipo io = ProcessoTipoFactoryHomolog.build(1);
 		
-		instante += TempoDeEspera.getTempoDeEspera();
+		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 0, 7, cpu));
 		
-		instante += TempoDeEspera.getTempoDeEspera();
+		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 1, 4, cpu));
 		
-		instante += TempoDeEspera.getTempoDeEspera();
+		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 2, 3, io));
 		
-		instante += TempoDeEspera.getTempoDeEspera();
+		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 3, 9, cpu));
 		
 		return eventos;

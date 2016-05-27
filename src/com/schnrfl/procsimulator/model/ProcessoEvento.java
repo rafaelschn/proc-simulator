@@ -1,22 +1,14 @@
 package com.schnrfl.procsimulator.model;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import com.schnrfl.procsimulator.generation.ProcessoTipoFactory;
-import com.schnrfl.procsimulator.simulation.SimulacaoProcessos;
+import java.util.LinkedList;
 
 /**
- * Classe que representa as entradas da simulação, oriundas do arquivo .DAT
+ * Classe que representa evento da simulação
  */
 public class ProcessoEvento implements Evento {
 
 	/**
-	 * 
-	 * */
-	private int tempoEspera;
-	
-	/**
-	 * Tempo do evento
+	 * Instante no tempo no qual o evento acontece
 	 * */
 	private long tempoDoEvento;
 	
@@ -26,28 +18,31 @@ public class ProcessoEvento implements Evento {
 	private TipoEvento tipo;
 	
 	/**
-	 * Process Control Block
+	 * Bloco de controle do processo
 	 */ 
 	private PCB pcb;
-
-	public ProcessoEvento(int numero, int ciclos, int processoTipo, TipoEvento tipo) {
+	
+	public ProcessoEvento(long tempoDoEvento, TipoEvento tipo, PCB pcb) {
 
 		this.tipo = tipo;
+		this.tempoDoEvento = tempoDoEvento;
 		
-		int min = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_DE;
-		int max = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_ATE;
-		
-		// Randomizar tempo de entrada deste processo
-		tempoEspera = ThreadLocalRandom.current().nextInt(min, max + 1);
-		
-		//Criar PCB do Processo
-		pcb = new PCB(numero, ProcessoTipoFactory.build(processoTipo), ciclos);
+		this.pcb = pcb;
 	}
 
-	public int getTempoEspera() {
-		return tempoEspera;
+	public ProcessoEvento(long tempoDoEvento, TipoEvento tipo, int pid, int timeSlice, ProcessoTipo tipoProcesso) {
+
+		this.tipo = tipo;
+		this.tempoDoEvento = tempoDoEvento;
+		
+		//Criar PCB do Processo
+		pcb = new PCB(pid, tipoProcesso, timeSlice, tempoDoEvento);
 	}
 	
+	public long getTempoDoEvento() {
+		return tempoDoEvento;
+	}
+
 	public TipoEvento getTipo() {
 		return tipo;
 	}
@@ -56,12 +51,17 @@ public class ProcessoEvento implements Evento {
 		return pcb;
 	}
 	
-	public void gera(TipoEvento tipo) {
-		this.tipo = tipo;
+	public void acionaTratamento(FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
+		tipo.trata(this, filaDeEventos, filaDeProntos);
 	}
 	
 	public void destroi() {
 		
+	}
+	
+	public void avancaNoTempo(long tempoParaAvancar, TipoEvento tipo) {
+		tempoDoEvento += tempoParaAvancar;
+		this.tipo = tipo;
 	}
 	
 	@Override
@@ -70,11 +70,9 @@ public class ProcessoEvento implements Evento {
 
 		sb.append("[");
 		sb.append("ProcessoEvento");
-		sb.append(" tipo: " + tipo);
-		sb.append(" processo numero: " + pcb.getNumero());
-		sb.append(" processo ciclos: " + pcb.getCiclosTotal());
-		sb.append(" processo tipo: " + pcb.getTipo());
-		sb.append(" TE: " + getTempoEspera());
+		sb.append(" tempo do evento: " + tempoDoEvento);
+		sb.append(" " + tipo);
+		sb.append(" " + pcb);
 		sb.append("]");
 
 		return sb.toString();

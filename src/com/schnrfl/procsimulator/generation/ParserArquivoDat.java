@@ -5,30 +5,30 @@ import com.schnrfl.procsimulator.model.TipoEventoNovoProcesso;
 
 public class ParserArquivoDat {
 
-	public ProcessoEvento parse(String linha, int ordem) {
+	public ProcessoEvento parse(String linha, int ordem, long instante) {
 		String[] fields = linha.split(";");
 
 		if (fields.length != 3)
 			throw new RuntimeException("O formato de cada linha da entrada deve ser numero;cliclos;tipo!");
 
-		int numero = Integer.parseInt(fields[0]);
+		int pid = Integer.parseInt(fields[0]);
 		
-		if (numero < -1)
+		if (pid < -1)
 			throw new RuntimeException("PID deve ser >= 0!");
 			
-		if (numero == -1)
+		if (pid == -1)
 			return null;
 		
-		if(ordem != numero)
-			throw new RuntimeException("Processos fora de ordem! Esperado " + ordem + " e recebido " + numero + "!");
+		if(ordem != pid)
+			throw new RuntimeException("Processos fora de ordem! Esperado " + ordem + " e recebido " + pid + "!");
 		
-		int ciclos = Integer.parseInt(fields[1]);
-		int tipo = Integer.parseInt(fields[2]);
+		int timeSlice = Integer.parseInt(fields[1]);
+		int tipoDoProcesso = Integer.parseInt(fields[2]);
 
-		if (!(tipo == 0 || tipo == 1))
-			throw new RuntimeException("Tipo deve ser 0 ou 1!");
+		if (!(tipoDoProcesso == 0 || tipoDoProcesso == 1))
+			throw new RuntimeException("Tipo do processo deve ser 0 ou 1!");
 
-		return new ProcessoEvento(numero, ciclos, tipo, new TipoEventoNovoProcesso());
+		return new ProcessoEvento(instante + TempoDeEspera.getTempoDeEspera(), new TipoEventoNovoProcesso(), pid, timeSlice, ProcessoTipoFactory.build(tipoDoProcesso));
 	}
 	
 }
