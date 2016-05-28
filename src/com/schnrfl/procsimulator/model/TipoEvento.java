@@ -1,5 +1,7 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
+
 public interface TipoEvento {
-	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos);
+	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado);
 }

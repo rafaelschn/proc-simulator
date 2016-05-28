@@ -6,7 +6,8 @@ public class FilaDeProntos {
 
 	private LinkedList<PCB> processos;
 	private int numeroMaximoDeProcessosNaFila;
-
+	private PCB emProcessamento;
+	
 	public FilaDeProntos(LinkedList<PCB> processos) {
 		this.processos = processos;
 		numeroMaximoDeProcessosNaFila = Integer.MIN_VALUE;
@@ -24,20 +25,37 @@ public class FilaDeProntos {
 			numeroMaximoDeProcessosNaFila = tamanho;
 	}
 	
+	public void iniciaProcessamento() {
+		emProcessamento = processos.pop();
+	}
+	
+	public void finalizouProcessamento() {
+		emProcessamento = null;
+	}
+	
 	public PCB removePrimeiroProcesso() {
 		return processos.pop();
 	}
 	
 	public PCB atendeProcesso() {
-		return processos.pop();
+		//return processos.pop();
+		
+		return processos.getFirst();
+		
+		//processos.pop();
 		//return processos.getFirst();
 	}
 	
 	public boolean unicoProcesso() {
+		
+		return emProcessamento == null;
+		
+		/*
 		int quantidadeDeProcessosNaFila = processos.size();
 		boolean unicoProcesso = quantidadeDeProcessosNaFila == 1;
 		
 		return unicoProcesso;
+		*/
 	}
 	
 	public PCB getPenultimo() {

@@ -73,34 +73,36 @@ public class SimulacaoProcessos implements Simulacao {
 		
 		Relogio relogio = new Relogio();
 		
+		long tempoMedioDeEsperaNaFilaDeProntos = 0;
+		int numeroDeProcessosConcluidosPorUnidadeDeTempo = 0;
+		long numeroMedioDeExecucoes = 0;
+		int numeroMaximoDeProcessosNaFilaDeProntos = 0;
+		
+		resultado = new ResultadoProcessos();
+		
 		// Fila de Eventos = NULL
 		while( !filaDeEventos.estaVazia() ) {
 			
 			ProcessoEvento evento = (ProcessoEvento) filaDeEventos.proximo();
 			
-			System.out.println(evento);
-			
 			relogio.avancaAte(evento.getTempoDoEvento());
-			evento.acionaTratamento(filaDeEventos, filaDeProntos);
+			
+			evento.acionaTratamento(filaDeEventos, filaDeProntos, resultado);
 			
 		}
 		
-		long tempoMedioDeEsperaNaFilaDeProntos = 0;
-		int numeroDeProcessosConcluidosPorUnidadeDeTempo = 0;
-		long numeroMedioDeExecucoes = 0;
-		int numeroMaximoDeProcessosNaFilaDeProntos = filaDeProntos.getNumeroMaximoDeProcessosNaFila();
-		resultado = new ResultadoProcessos(tempoMedioDeEsperaNaFilaDeProntos, 
-				numeroDeProcessosConcluidosPorUnidadeDeTempo, 
-				numeroMedioDeExecucoes, 
-				numeroMaximoDeProcessosNaFilaDeProntos);
+		long duracao = relogio.getInstanteNoTempo();
 		
-		System.out.println("Relógio da simulação avançou " + relogio.getInstanteNoTempo() + " unidades de tempo");
-		System.out.println("Número máximo de processos na fila de prontos: " + resultado.getNumeroMaximoDeProcessosNaFilaDeProntos());
+		resultado.setNumeroMaximoDeProcessosNaFilaDeProntos(filaDeProntos.getNumeroMaximoDeProcessosNaFila());
+		resultado.setDuracao(duracao);
 		
-		System.out.println("Número de processos na fila de prontos: " + filaDeProntos.size());
+		
+		System.out.println("Relógio da simulação avançou " + duracao + " unidades de tempo");
+		//System.out.println("Número de processos na fila de prontos: " + filaDeProntos.size());
 	}
 	
 	public Resultado getResultado() {
 		return resultado;
 	}
+	
 }

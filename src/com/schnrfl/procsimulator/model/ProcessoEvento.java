@@ -2,6 +2,8 @@ package com.schnrfl.procsimulator.model;
 
 import java.util.LinkedList;
 
+import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
+
 /**
  * Classe que representa evento da simulação
  */
@@ -51,8 +53,8 @@ public class ProcessoEvento implements Evento {
 		return pcb;
 	}
 	
-	public void acionaTratamento(FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
-		tipo.trata(this, filaDeEventos, filaDeProntos);
+	public void acionaTratamento(FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
+		tipo.trata(this, filaDeEventos, filaDeProntos, resultado);
 	}
 	
 	public void destroi() {

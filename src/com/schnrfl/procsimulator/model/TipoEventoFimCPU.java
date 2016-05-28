@@ -1,5 +1,7 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
+
 /**
  * Classe que representa o Fim do atendimento da CPU. 
  * Este evento deverá escalonar um evento FIM_ES 
@@ -12,20 +14,33 @@ public class TipoEventoFimCPU implements TipoEvento {
 		return "[TipoEvento: Fim CPU]";
 	}
 	
-	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
-		System.out.println("Tratando Evento Fim CPU");
+	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
+		
+		//System.out.println(evento);
 		
 		PCB pcb = evento.getPCB();
 		
+		//System.out.println("Tratando Evento Fim CPU (" + pcb.getNumero() + ")...");
+		
 		pcb.executa();
+		
+		filaDeProntos.finalizouProcessamento();
+		
+		System.out.println("PID " + pcb.getNumero() + " saiu do processador no instante " + evento.getTempoDoEvento());
 		
 		//filaDeProntos.removePrimeiroProcesso();
 		
 		if(pcb.finalizou()) {
+			
 			//Contabiliza
-			pcb.contabilizar();
+			pcb.contabilizar(resultado);
+			
 			//Destrói processo
 			//evento = null;
+			
+			if(filaDeProntos.size() > 0) {
+				atendeProximoProcessoDaFila(evento, filaDeEventos, filaDeProntos);
+			}
 			
 			return;
 		}
@@ -37,20 +52,29 @@ public class TipoEventoFimCPU implements TipoEvento {
 		filaDeEventos.adiciona(fimES);
 		
 		//Fila Vazia?
-		if(filaDeProntos.size() == 0)
+		if(filaDeProntos.size() == 0) {
+			System.out.println("Fila de prontos vazia");
 			return;
+		}
 		
+		atendeProximoProcessoDaFila(evento, filaDeEventos, filaDeProntos);
+		
+	}
+
+	private void atendeProximoProcessoDaFila(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
+		PCB pcb;
 		//Retira primeiro processo da fila de prontos
 		pcb = filaDeProntos.atendeProcesso();
 		
-		pcb.foiAtendidoNaFilaNoInstante(evento.getTempoDoEvento());
-		System.out.println("PID " + pcb.getNumero() + " foi atendido na fila em: " + evento.getTempoDoEvento());
+		long instante = evento.getTempoDoEvento() + 1;
+		
+		pcb.foiAtendidoNaFilaNoInstante(instante);
+		filaDeProntos.iniciaProcessamento();
 		
 		// Gera evento fim CPU
-		ProcessoEvento fimCpu = new ProcessoEvento(evento.getTempoDoEvento(), evento.getTipo(), pcb);
+		ProcessoEvento fimCpu = new ProcessoEvento(instante, evento.getTipo(), pcb);
 		fimCpu.avancaNoTempo(pcb.getCiclosParaExecutar(), new TipoEventoFimCPU());
 		filaDeEventos.adiciona(fimCpu);
-		
 	}
 	
 }

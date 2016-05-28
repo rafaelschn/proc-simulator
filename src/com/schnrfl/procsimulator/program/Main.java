@@ -28,7 +28,7 @@ public class Main {
 			//Inicia a simulação
 			simulador.iniciar(simulacao);
 			
-			System.out.println("Tempo real da simulação: " + simulador.getTempoExecucao() + "ms");
+			System.out.println("\nTempo real da simulação: " + simulador.getTempoExecucao() + "ms");
 			//Mostra os resultados da simulação
 			System.out.println(simulador.getResultado());
 			

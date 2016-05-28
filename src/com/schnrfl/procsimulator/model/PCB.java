@@ -1,5 +1,7 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
+
 /**
  * Classe que representa um bloco de controle de processo (Process Control
  * Block)
@@ -51,6 +53,11 @@ public class PCB {
 
 	private long instanteDeChegadaNaFila;
 	private long instanteDeAtendimentoNaFila;
+	
+	/**
+	 * Quantas passagens esse processo sofreu
+	 */
+	private int passagensPelaFila;
 
 	/**
 	 * Numero de execucoes já realizadas pelo processo
@@ -107,14 +114,22 @@ public class PCB {
 	}
 
 	public void chegouNaFilaNoInstante(long instante) {
+		
+		++passagensPelaFila;
+		
+		System.out.println("PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante);
+		
 		instanteDeChegadaNaFila = instante;
+		
 	}
 
 	public void foiAtendidoNaFilaNoInstante(long instante) {
 		instanteDeAtendimentoNaFila = instante;
-
+		
 		tempoFila = instanteDeAtendimentoNaFila - instanteDeChegadaNaFila;
 		tempoDeEsperaAcumulado += tempoFila;
+		
+		System.out.println("PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 	}
 
 	public int getExecucoes() {
@@ -134,7 +149,7 @@ public class PCB {
 
 		ciclosExecutados += ciclosParaExecutar;
 		
-		System.out.println("Executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos do pid " + numero);
+		System.out.println("PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos");
 
 		++execucoes;
 
@@ -154,8 +169,10 @@ public class PCB {
 		return finalizou;
 	}
 
-	public void contabilizar() {
-		System.out.println("Contabilizou pid: " + numero);
+	public void contabilizar(ResultadoProcessos resultado) {
+		resultado.acumulaTempoEmFila(tempoDeEsperaAcumulado);
+		resultado.acumulaExecucoes(execucoes);
+		resultado.concluiuProcesso();
 	}
 
 	@Override

@@ -6,42 +6,51 @@ package com.schnrfl.procsimulator.simulation;
 public class ResultadoProcessos implements Resultado {
 
 	/**
-	 * Tempo médio de espera na fila de prontos
-	 */
-	private double tempoMedioDeEsperaNaFilaDeProntos;
-
-	/**
-	 * Número de processos concluídos por unidade de tempo
-	 */
-	private double numeroDeProcessosConcluidosPorUnidadeDeTempo;
-
-	/**
-	 * Número médio de execuções
-	 */
-	private double numeroMedioDeExecucoes;
-
-	/**
 	 * Número máximo de processos na fila de prontos
 	 */
 	private long numeroMaximoDeProcessosNaFilaDeProntos;
 
-	public ResultadoProcessos(double tempoMedioDeEsperaNaFilaDeProntos, double numeroDeProcessosConcluidosPorUnidadeDeTempo,
-			double numeroMedioDeExecucoes, long numeroMaximoDeProcessosNaFilaDeProntos) {
-		this.tempoMedioDeEsperaNaFilaDeProntos = tempoMedioDeEsperaNaFilaDeProntos;
-		this.numeroDeProcessosConcluidosPorUnidadeDeTempo = numeroDeProcessosConcluidosPorUnidadeDeTempo;
-		this.numeroMedioDeExecucoes = numeroMedioDeExecucoes;
-		this.numeroMaximoDeProcessosNaFilaDeProntos = numeroMaximoDeProcessosNaFilaDeProntos;
+	private long totalDeTempoAcumuladoEmFila;
+
+	private long totalDeExecucoes;
+	
+	private long duracaoDaSimulacao;
+	
+	private long totalDeProcessosConcluidos;
+
+	public ResultadoProcessos() {
+		this.numeroMaximoDeProcessosNaFilaDeProntos = 0;
+		
+		totalDeTempoAcumuladoEmFila = 0;
+		totalDeExecucoes = 0;
+		duracaoDaSimulacao = 0;
+		totalDeProcessosConcluidos = 0;
 	}
 
+	/**
+	 * Tempo médio de espera na fila de prontos
+	 */
 	public double getTempoMedioDeEsperaNaFilaDeProntos() {
+		double tempoMedioDeEsperaNaFilaDeProntos = (double) totalDeTempoAcumuladoEmFila / totalDeExecucoes;
+		
 		return tempoMedioDeEsperaNaFilaDeProntos;
 	}
 
+	/**
+	 * Número de processos concluídos por unidade de tempo
+	 */
 	public double getNumeroDeProcessosConcluidosPorUnidadeDeTempo() {
+		double numeroDeProcessosConcluidosPorUnidadeDeTempo = (double) totalDeProcessosConcluidos / duracaoDaSimulacao;
+		
 		return numeroDeProcessosConcluidosPorUnidadeDeTempo;
 	}
 
+	/**
+	 * Número médio de execuções
+	 */
 	public double getNumeroMedioDeExecucoes() {
+		double numeroMedioDeExecucoes = (double) totalDeExecucoes / duracaoDaSimulacao;
+		
 		return numeroMedioDeExecucoes;
 	}
 
@@ -49,16 +58,41 @@ public class ResultadoProcessos implements Resultado {
 		return numeroMaximoDeProcessosNaFilaDeProntos;
 	}
 	
+	public void setNumeroMaximoDeProcessosNaFilaDeProntos(long numeroMaximoDeProcessosNaFilaDeProntos) {
+		this.numeroMaximoDeProcessosNaFilaDeProntos = numeroMaximoDeProcessosNaFilaDeProntos;
+	}
+	
+	public void acumulaTempoEmFila(long tempoEmFila) {
+		this.totalDeTempoAcumuladoEmFila += tempoEmFila;
+	}
+	
+	public void acumulaExecucoes(long execucoes) {
+		this.totalDeExecucoes += execucoes;
+	}
+	
+	public void setDuracao(long duracao) {
+		this.duracaoDaSimulacao = duracao;
+	}
+	
+	public void concluiuProcesso() {
+		++totalDeProcessosConcluidos;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("\n");
+		sb.append("\n\n");
 		sb.append("Resultado da Simulação:");
-		sb.append("\nTempo médio de espera na fila de prontos: " + tempoMedioDeEsperaNaFilaDeProntos);
-		sb.append("\nNúmero de processos concluídos por unidade de tempo: " + numeroDeProcessosConcluidosPorUnidadeDeTempo);
-		sb.append("\nNúmero médio de execuções: " + numeroMedioDeExecucoes);
-		sb.append("\nNúmero máximo de processos na fila de prontos: " + numeroMaximoDeProcessosNaFilaDeProntos);
+		sb.append("\nTempo de simulacao: " + duracaoDaSimulacao + " unidades de tempo");
+		sb.append("\nTotal de tempo na fila: " + totalDeTempoAcumuladoEmFila + " unidades de tempo");
+		sb.append("\nTotal de processos concluídos: " + totalDeProcessosConcluidos);
+		sb.append("\nTotal de execuções: " + totalDeExecucoes);
+		sb.append("\n");
+		sb.append("\nTempo médio de espera na fila de prontos: " + getTempoMedioDeEsperaNaFilaDeProntos() + " unidades de tempo");
+		sb.append("\nNúmero de processos concluídos por unidade de tempo: " + getNumeroDeProcessosConcluidosPorUnidadeDeTempo());
+		sb.append("\nNúmero médio de execuções: " + getNumeroMedioDeExecucoes() + " cada unidade de tempo");
+		sb.append("\nNúmero máximo de processos na fila de prontos: " + getNumeroMaximoDeProcessosNaFilaDeProntos());
 
 		return sb.toString();
 	}

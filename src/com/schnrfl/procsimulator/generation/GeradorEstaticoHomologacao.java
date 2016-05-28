@@ -23,13 +23,13 @@ public class GeradorEstaticoHomologacao implements Gerador {
 		
 		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 1, 4, cpu));
-		
+		/*
 		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 2, 3, io));
 		
 		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 3, 9, cpu));
-		
+		*/
 		return eventos;
 	}
 
