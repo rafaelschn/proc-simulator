@@ -9,11 +9,6 @@ import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 public class TipoEventoFimES implements TipoEvento {
 	
 	@Override
-	public String toString() {
-		return "[TipoEvento: Fim ES]";
-	}
-
-	@Override
 	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
 		
 		//System.out.println(evento);
@@ -21,7 +16,7 @@ public class TipoEventoFimES implements TipoEvento {
 		PCB pcb = evento.getPCB();
 		
 		//System.out.println("Tratando Evento Fim ES (" + pcb.getNumero() + ")...");
-		System.out.println("PID " + pcb.getNumero() + " finalizou ES no instante " + evento.getTempoDoEvento());
+		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " finalizou ES");
 		
 		long proximoInstante = evento.getTempoDoEvento() + 1;
 		pcb.chegouNaFilaNoInstante(proximoInstante);
@@ -39,9 +34,13 @@ public class TipoEventoFimES implements TipoEvento {
 		
 		pcb.foiAtendidoNaFilaNoInstante(proximoInstante);
 		filaDeProntos.iniciaProcessamento();
-		
-		evento.avancaNoTempo(pcb.getCiclosParaExecutar(), new TipoEventoFimCPU());
+		evento.avancaNoTempo(pcb.getCiclosParaExecutar()+1, new TipoEventoFimCPU());
 		filaDeEventos.adiciona(evento);
+	}
+	
+	@Override
+	public String toString() {
+		return "[TipoEvento: Fim ES]";
 	}
 	
 }

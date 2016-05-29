@@ -9,11 +9,23 @@ import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
  * */
 public class TipoEventoFimCPU implements TipoEvento {
 
-	@Override
-	public String toString() {
-		return "[TipoEvento: Fim CPU]";
+	private void atendeProximoProcessoDaFila(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
+		PCB pcb;
+		//Retira primeiro processo da fila de prontos
+		pcb = filaDeProntos.atendeProcesso();
+		
+		long instante = evento.getTempoDoEvento() + 1;
+		
+		pcb.foiAtendidoNaFilaNoInstante(instante);
+		filaDeProntos.iniciaProcessamento();
+		
+		// Gera evento fim CPU
+		ProcessoEvento fimCpu = new ProcessoEvento(instante, evento.getTipo(), pcb);
+		fimCpu.avancaNoTempo(pcb.getCiclosParaExecutar(), new TipoEventoFimCPU());
+		filaDeEventos.adiciona(fimCpu);
 	}
 	
+	@Override
 	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
 		
 		//System.out.println(evento);
@@ -26,7 +38,7 @@ public class TipoEventoFimCPU implements TipoEvento {
 		
 		filaDeProntos.finalizouProcessamento();
 		
-		System.out.println("PID " + pcb.getNumero() + " saiu do processador no instante " + evento.getTempoDoEvento());
+		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " saiu do processador");
 		
 		//filaDeProntos.removePrimeiroProcesso();
 		
@@ -60,21 +72,10 @@ public class TipoEventoFimCPU implements TipoEvento {
 		atendeProximoProcessoDaFila(evento, filaDeEventos, filaDeProntos);
 		
 	}
-
-	private void atendeProximoProcessoDaFila(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
-		PCB pcb;
-		//Retira primeiro processo da fila de prontos
-		pcb = filaDeProntos.atendeProcesso();
-		
-		long instante = evento.getTempoDoEvento() + 1;
-		
-		pcb.foiAtendidoNaFilaNoInstante(instante);
-		filaDeProntos.iniciaProcessamento();
-		
-		// Gera evento fim CPU
-		ProcessoEvento fimCpu = new ProcessoEvento(instante, evento.getTipo(), pcb);
-		fimCpu.avancaNoTempo(pcb.getCiclosParaExecutar(), new TipoEventoFimCPU());
-		filaDeEventos.adiciona(fimCpu);
+	
+	@Override
+	public String toString() {
+		return "[TipoEvento: Fim CPU]";
 	}
 	
 }

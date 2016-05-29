@@ -8,8 +8,8 @@ public class ProcessoIO extends ProcessoTipoGenerico implements ProcessoTipo {
 	}
 	
 	public ProcessoIO(boolean homolog) {
-		tempoCicloCPU = 10;
-		tempoCicloES = 1;
+		tempoCicloCPU = 4;
+		tempoCicloES = 2;
 	}
 	
 	@Override

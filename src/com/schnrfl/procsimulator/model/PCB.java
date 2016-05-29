@@ -3,8 +3,8 @@ package com.schnrfl.procsimulator.model;
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
- * Classe que representa um bloco de controle de processo (Process Control
- * Block)
+ * Classe que representa um bloco de controle de processo (Process Control Block)
+ * 
  **/
 public class PCB {
 
@@ -14,7 +14,7 @@ public class PCB {
 	private int timeSlice;
 
 	/**
-	 * Número do processo
+	 * Número do processo: PID
 	 */
 	private int numero;
 
@@ -52,6 +52,7 @@ public class PCB {
 	//
 
 	private long instanteDeChegadaNaFila;
+	
 	private long instanteDeAtendimentoNaFila;
 	
 	/**
@@ -117,9 +118,9 @@ public class PCB {
 		
 		++passagensPelaFila;
 		
-		System.out.println("PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante);
-		
 		instanteDeChegadaNaFila = instante;
+		
+		System.out.println(instante + " - PID " + numero + " chegou na fila(" + passagensPelaFila + ")");
 		
 	}
 
@@ -129,7 +130,7 @@ public class PCB {
 		tempoFila = instanteDeAtendimentoNaFila - instanteDeChegadaNaFila;
 		tempoDeEsperaAcumulado += tempoFila;
 		
-		System.out.println("PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
+		System.out.println( instanteDeAtendimentoNaFila + " - PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 	}
 
 	public int getExecucoes() {

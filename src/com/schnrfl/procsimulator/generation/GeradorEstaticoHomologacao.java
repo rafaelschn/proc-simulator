@@ -18,11 +18,11 @@ public class GeradorEstaticoHomologacao implements Gerador {
 		ProcessoTipo cpu = ProcessoTipoFactoryHomolog.build(0);
 		ProcessoTipo io = ProcessoTipoFactoryHomolog.build(1);
 		
-		instante += 4;
-		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 0, 7, cpu));
+		instante += 2;
+		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 0, 2, cpu));
 		
-		instante += 4;
-		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 1, 4, cpu));
+		instante += 2;
+		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 1, 2, cpu));
 		/*
 		instante += 4;
 		eventos.add(new ProcessoEvento(instante, new TipoEventoNovoProcesso(), 2, 3, io));

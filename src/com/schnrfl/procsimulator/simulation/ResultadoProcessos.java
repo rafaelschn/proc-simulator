@@ -18,6 +18,8 @@ public class ResultadoProcessos implements Resultado {
 	
 	private long totalDeProcessosConcluidos;
 
+	private long duracaoRealDaSimulacao;
+
 	public ResultadoProcessos() {
 		this.numeroMaximoDeProcessosNaFilaDeProntos = 0;
 		
@@ -74,6 +76,10 @@ public class ResultadoProcessos implements Resultado {
 		this.duracaoDaSimulacao = duracao;
 	}
 	
+	public void setDuracaoReal(long duracaoRealDaSimulacao) {
+		this.duracaoRealDaSimulacao = duracaoRealDaSimulacao;
+	}
+	
 	public void concluiuProcesso() {
 		++totalDeProcessosConcluidos;
 	}
@@ -84,7 +90,8 @@ public class ResultadoProcessos implements Resultado {
 
 		sb.append("\n\n");
 		sb.append("Resultado da Simulação:");
-		sb.append("\nTempo de simulacao: " + duracaoDaSimulacao + " unidades de tempo");
+		sb.append("\nTempo de simulação: " + duracaoDaSimulacao + " unidades de tempo");
+		sb.append("\nTempo real de simulação: " + duracaoRealDaSimulacao + "ms");
 		sb.append("\nTotal de tempo na fila: " + totalDeTempoAcumuladoEmFila + " unidades de tempo");
 		sb.append("\nTotal de processos concluídos: " + totalDeProcessosConcluidos);
 		sb.append("\nTotal de execuções: " + totalDeExecucoes);

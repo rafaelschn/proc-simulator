@@ -10,11 +10,6 @@ import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 public class TipoEventoNovoProcesso implements TipoEvento {
 
 	@Override
-	public String toString() {
-		return "[TipoEvento: Novo Processo]";
-	}
-
-	@Override
 	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
 		
 		//System.out.println(evento);
@@ -45,6 +40,11 @@ public class TipoEventoNovoProcesso implements TipoEvento {
 
 		// incrementa contador de ciclos
 		//pcb.executa();
+	}
+	
+	@Override
+	public String toString() {
+		return "[TipoEvento: Novo Processo]";
 	}
 
 }

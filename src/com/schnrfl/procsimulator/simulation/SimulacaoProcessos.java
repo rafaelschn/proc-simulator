@@ -39,6 +39,14 @@ public class SimulacaoProcessos implements Simulacao {
 		return this;
 	}
 	
+	public FilaDeEventos getFilaDeEventos() {
+		return filaDeEventos;
+	}
+	
+	public FilaDeProntos getFilaDeProntos() {
+		return filaDeProntos;
+	}
+	
 	public long getTempoExecucao() {
 		return finalExecucao - inicioExecucao;
 	}
@@ -69,16 +77,12 @@ public class SimulacaoProcessos implements Simulacao {
 	}
 
 	private void executar() {
-		//eventos.forEach(evento -> System.out.println(evento));
 		
 		Relogio relogio = new Relogio();
-		
-		long tempoMedioDeEsperaNaFilaDeProntos = 0;
-		int numeroDeProcessosConcluidosPorUnidadeDeTempo = 0;
-		long numeroMedioDeExecucoes = 0;
-		int numeroMaximoDeProcessosNaFilaDeProntos = 0;
-		
 		resultado = new ResultadoProcessos();
+		
+		filaDeEventos.getEventos().forEach(evento->System.out.println(evento));
+		System.out.println();
 		
 		// Fila de Eventos = NULL
 		while( !filaDeEventos.estaVazia() ) {
@@ -92,16 +96,14 @@ public class SimulacaoProcessos implements Simulacao {
 		}
 		
 		long duracao = relogio.getInstanteNoTempo();
-		
 		resultado.setNumeroMaximoDeProcessosNaFilaDeProntos(filaDeProntos.getNumeroMaximoDeProcessosNaFila());
 		resultado.setDuracao(duracao);
 		
-		
-		System.out.println("Relógio da simulação avançou " + duracao + " unidades de tempo");
-		//System.out.println("Número de processos na fila de prontos: " + filaDeProntos.size());
 	}
 	
 	public Resultado getResultado() {
+		resultado.setDuracaoReal(getTempoExecucao());
+		
 		return resultado;
 	}
 	
