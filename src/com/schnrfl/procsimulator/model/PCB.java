@@ -150,7 +150,7 @@ public class PCB {
 
 		ciclosExecutados += ciclosParaExecutar;
 		
-		System.out.println("PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos");
+		System.out.println("[PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos]");
 
 		++execucoes;
 
@@ -165,15 +165,21 @@ public class PCB {
 		boolean finalizou = ciclosExecutados == ciclosTotal;
 		
 		if(finalizou)
-			System.out.println("PID " + numero + " finalizado!");
+			System.out.println("[PID " + numero + " finalizado!]");
 		
 		return finalizou;
 	}
 
-	public void contabilizar(ResultadoProcessos resultado) {
+	public void contabilizar(ResultadoProcessos resultado, ProcessoEvento evento) {
 		resultado.acumulaTempoEmFila(tempoDeEsperaAcumulado);
 		resultado.acumulaExecucoes(execucoes);
 		resultado.concluiuProcesso();
+		
+		System.out.println("[PID " + numero + " ficou no sistema durante " + getDuracaoEmSistema(evento.getTempoDoEvento()) + " unidades de tempo]");
+	}
+	
+	private long getDuracaoEmSistema(long tempoDoEvento) {
+		return tempoDoEvento - tempoDeChegada;
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class ResultadoProcessos implements Resultado {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("\n\n");
+		sb.append("\n");
 		sb.append("Resultado da Simulação:");
 		sb.append("\nTempo de simulação: " + duracaoDaSimulacao + " unidades de tempo");
 		sb.append("\nTempo real de simulação: " + duracaoRealDaSimulacao + "ms");
@@ -98,7 +98,7 @@ public class ResultadoProcessos implements Resultado {
 		sb.append("\n");
 		sb.append("\nTempo médio de espera na fila de prontos: " + getTempoMedioDeEsperaNaFilaDeProntos() + " unidades de tempo");
 		sb.append("\nNúmero de processos concluídos por unidade de tempo: " + getNumeroDeProcessosConcluidosPorUnidadeDeTempo());
-		sb.append("\nNúmero médio de execuções: " + getNumeroMedioDeExecucoes() + " cada unidade de tempo");
+		sb.append("\nNúmero médio de execuções: " + getNumeroMedioDeExecucoes() + " a cada unidade de tempo");
 		sb.append("\nNúmero máximo de processos na fila de prontos: " + getNumeroMaximoDeProcessosNaFilaDeProntos());
 
 		return sb.toString();

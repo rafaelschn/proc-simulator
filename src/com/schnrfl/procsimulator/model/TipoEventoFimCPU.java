@@ -14,7 +14,8 @@ public class TipoEventoFimCPU implements TipoEvento {
 		//Retira primeiro processo da fila de prontos
 		pcb = filaDeProntos.atendeProcesso();
 		
-		long instante = evento.getTempoDoEvento() + 1;
+		//long instante = evento.getTempoDoEvento() + 1;
+		long instante = evento.getTempoDoEvento();
 		
 		pcb.foiAtendidoNaFilaNoInstante(instante);
 		filaDeProntos.iniciaProcessamento();
@@ -45,7 +46,7 @@ public class TipoEventoFimCPU implements TipoEvento {
 		if(pcb.finalizou()) {
 			
 			//Contabiliza
-			pcb.contabilizar(resultado);
+			pcb.contabilizar(resultado, evento);
 			
 			//Destrói processo
 			//evento = null;
@@ -65,7 +66,7 @@ public class TipoEventoFimCPU implements TipoEvento {
 		
 		//Fila Vazia?
 		if(filaDeProntos.size() == 0) {
-			System.out.println("Fila de prontos vazia");
+			System.out.println("[Fila de prontos vazia]");
 			return;
 		}
 		

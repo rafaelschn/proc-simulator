@@ -24,7 +24,7 @@ public class TipoEventoNovoProcesso implements TipoEvento {
 		
 		//Único processo?
 		if ( !filaDeProntos.unicoProcesso() ) {
-			System.out.println("Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila");
+			System.out.println("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 
 			return;
 		}
