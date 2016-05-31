@@ -17,7 +17,9 @@ public class TipoEventoNovoProcesso implements TipoEvento {
 		PCB pcb = evento.getPCB();
 
 		//System.out.println("Tratando Evento Novo Processo (" + pcb.getNumero() + ")...");
-
+		
+		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " entrou no sistema");
+		
 		pcb.chegouNaFilaNoInstante(evento.getTempoDoEvento());
 		//Coloca processo na fila de prontos
 		filaDeProntos.adiciona(pcb);

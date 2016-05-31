@@ -8,7 +8,7 @@ public class ProcessoCPU extends ProcessoTipoGenerico implements ProcessoTipo {
 	}
 	
 	public ProcessoCPU(boolean homolog) {
-		tempoCicloCPU = 4;
+		tempoCicloCPU = 6;
 		tempoCicloES = 2;
 	}
 
