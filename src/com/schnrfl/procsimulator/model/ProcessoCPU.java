@@ -4,12 +4,15 @@ public class ProcessoCPU extends ProcessoTipoGenerico implements ProcessoTipo {
 
 	public ProcessoCPU() {
 		tempoCicloCPU = getTempoRandomico(1, 100);
-		tempoCicloES = getTempoRandomico(50, 200);
 	}
-	
+
 	public ProcessoCPU(boolean homolog) {
 		tempoCicloCPU = 6;
 		tempoCicloES = 2;
+	}
+
+	protected int randomizaES() {
+		return getTempoRandomico(50, 200);
 	}
 
 	@Override
