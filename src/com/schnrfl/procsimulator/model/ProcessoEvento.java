@@ -1,7 +1,5 @@
 package com.schnrfl.procsimulator.model;
 
-import java.util.LinkedList;
-
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
@@ -57,13 +55,13 @@ public class ProcessoEvento implements Evento {
 		tipo.trata(this, filaDeEventos, filaDeProntos, resultado);
 	}
 	
-	public void destroi() {
-		
-	}
-	
 	public void avancaNoTempo(long tempoParaAvancar, TipoEvento tipo) {
 		tempoDoEvento += tempoParaAvancar;
 		this.tipo = tipo;
+	}
+	
+	public void destroi() {
+		
 	}
 	
 	@Override

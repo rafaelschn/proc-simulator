@@ -1,7 +1,5 @@
 package com.schnrfl.procsimulator.generation;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.schnrfl.procsimulator.simulation.SimulacaoProcessos;
 
 
@@ -15,9 +13,9 @@ public class TempoDeEspera {
 		int min = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_DE;
 		int max = SimulacaoProcessos.PROCESSO_TEMPO_ESPERA_ATE;
 		
-		int tempoDeEspera = ThreadLocalRandom.current().nextInt(min, max + 1);
+		long tempoDeEspera = Randomizador.randomiza(min, max);
 		
-		System.out.println("Randomizou: " + tempoDeEspera);
+		System.out.println("Randomizou tempo de espera: " + tempoDeEspera);
 		
 		return tempoDeEspera;
 	}

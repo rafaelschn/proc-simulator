@@ -17,6 +17,14 @@ public class FilaDeProntos {
 		return numeroMaximoDeProcessosNaFila;
 	}
 	
+	public int size() {
+		return processos.size();
+	}
+
+	public LinkedList<PCB> getProcessos() {
+		return processos;
+	}
+	
 	public void adiciona(PCB processo) {
 		processos.addLast(processo);
 		
@@ -38,26 +46,14 @@ public class FilaDeProntos {
 	}
 	
 	public PCB atendeProcesso() {
-		//return processos.pop();
-		
 		return processos.getFirst();
-		
-		//processos.pop();
-		//return processos.getFirst();
 	}
 	
 	public boolean unicoProcesso() {
-		
 		return emProcessamento == null;
-		
-		/*
-		int quantidadeDeProcessosNaFila = processos.size();
-		boolean unicoProcesso = quantidadeDeProcessosNaFila == 1;
-		
-		return unicoProcesso;
-		*/
 	}
 	
+	/*
 	public PCB getPenultimo() {
 		int quantidadeDeProcessosNaFila = processos.size();
 		
@@ -66,13 +62,15 @@ public class FilaDeProntos {
 		
 		return processos.get(quantidadeDeProcessosNaFila - 2);
 	}
+	*/
 	
-	public int size() {
-		return processos.size();
+	/*
+	public boolean unicoProcesso() {
+		int quantidadeDeProcessosNaFila = processos.size();
+		boolean unicoProcesso = quantidadeDeProcessosNaFila == 1;
+		
+		return unicoProcesso;
 	}
-
-	public LinkedList<PCB> getProcessos() {
-		return processos;
-	}
+	*/
 
 }

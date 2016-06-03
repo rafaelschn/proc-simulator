@@ -113,6 +113,14 @@ public class PCB {
 	public long getInstanteDeAtendimentoNaFila() {
 		return instanteDeAtendimentoNaFila;
 	}
+	
+	public int getExecucoes() {
+		return execucoes;
+	}
+	
+	public long getTempoCicloES() {
+		return tipo.getTempoCicloES();
+	}
 
 	public void chegouNaFilaNoInstante(long instante) {
 		
@@ -120,7 +128,7 @@ public class PCB {
 		
 		instanteDeChegadaNaFila = instante;
 		
-		System.out.println(instante + " - PID " + numero + " chegou na fila(" + passagensPelaFila + ")");
+		System.out.println("[PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante + "]");
 		
 	}
 
@@ -130,17 +138,9 @@ public class PCB {
 		tempoFila = instanteDeAtendimentoNaFila - instanteDeChegadaNaFila;
 		tempoDeEsperaAcumulado += tempoFila;
 		
-		System.out.println( instanteDeAtendimentoNaFila + " - PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
-	}
-
-	public int getExecucoes() {
-		return execucoes;
+		System.out.println("[PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 	}
 	
-	public long getTempoCicloES() {
-		return tipo.getTempoCicloES();
-	}
-
 	public int executa() {
 
 		if (ciclosExecutados >= ciclosTotal)
