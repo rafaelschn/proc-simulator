@@ -2,10 +2,11 @@ package com.schnrfl.procsimulator.generation;
 
 import com.schnrfl.procsimulator.model.ProcessoEvento;
 import com.schnrfl.procsimulator.model.TipoEventoNovoProcesso;
+import com.schnrfl.procsimulator.simulation.Logger;
 
 public class ParserArquivoDat {
 
-	public ProcessoEvento parse(String linha, int ordem, long instante) {
+	public ProcessoEvento parse(String linha, int ordem, long instante, Logger logger) {
 		String[] fields = linha.split(";");
 
 		if (fields.length != 3)
@@ -28,7 +29,7 @@ public class ParserArquivoDat {
 		if (!(tipoDoProcesso == 0 || tipoDoProcesso == 1))
 			throw new RuntimeException("Tipo do processo deve ser 0 ou 1!");
 
-		return new ProcessoEvento(instante + TempoDeEspera.getTempoDeEspera(), new TipoEventoNovoProcesso(), pid, timeSlice, ProcessoTipoFactory.build(tipoDoProcesso));
+		return new ProcessoEvento(instante + TempoDeEspera.getTempoDeEspera(logger), new TipoEventoNovoProcesso(), pid, timeSlice, ProcessoTipoFactory.build(tipoDoProcesso, logger), logger);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.Logger;
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
@@ -9,14 +10,12 @@ import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 public class TipoEventoFimES implements TipoEvento {
 	
 	@Override
-	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
-		
-		//System.out.println(evento);
+	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado, Logger logger) {
 		
 		PCB pcb = evento.getPCB();
 		
-		//System.out.println("Tratando Evento Fim ES (" + pcb.getNumero() + ")...");
 		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " finalizou ES");
+		logger.log(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " finalizou ES");
 		
 		//long proximoInstante = evento.getTempoDoEvento() + 1;
 		long proximoInstante = evento.getTempoDoEvento();
@@ -27,15 +26,20 @@ public class TipoEventoFimES implements TipoEvento {
 		
 		//Único processo?
 		if( !filaDeProntos.unicoProcesso() ) {
+			//Processador ocupado, pode ir para o próximo evento
 			System.out.println("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
+			logger.log("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 			return;
 		}
 		
+		//Atende o próximo processo na fila
 		pcb = filaDeProntos.atendeProcesso();
 		
+		//Informa instante de atendimento na fila
 		pcb.foiAtendidoNaFilaNoInstante(proximoInstante);
 		filaDeProntos.iniciaProcessamento();
-		//evento.avancaNoTempo(pcb.getCiclosParaExecutar()+1, new TipoEventoFimCPU());
+		
+		// Gera evento fim CPU
 		evento.avancaNoTempo(pcb.getCiclosParaExecutar(), new TipoEventoFimCPU());
 		filaDeEventos.adiciona(evento);
 	}

@@ -51,12 +51,12 @@ public class SimulacaoProcessos implements Simulacao {
 		return finalExecucao - inicioExecucao;
 	}
 	
-	public void iniciar(Gerador gerador) {
+	public void iniciar(Gerador gerador, Logger logger) {
 		this.gerador = gerador;
-		iniciar();
+		iniciar(logger);
 	}
 	
-	public void iniciar() {
+	public void iniciar(Logger logger) {
 		
 		if(gerador == null)
 			throw new RuntimeException("Informe um gerador de eventos!");
@@ -66,23 +66,27 @@ public class SimulacaoProcessos implements Simulacao {
 		filaDeProntos = new FilaDeProntos(new LinkedList<>());
 		
 		System.out.println("Iniciando simulação...\n");
+		logger.log("Iniciando simulação...\n");
 		
 		inicioExecucao = System.currentTimeMillis();
 		
-		executar();
+		executar(logger);
 		
 		finalExecucao = System.currentTimeMillis();
 		
 		System.out.println("\nFinalizando simulação...");
+		logger.log("\nFinalizando simulação...");
 	}
 
-	private void executar() {
+	private void executar(Logger logger) {
 		
 		Relogio relogio = new Relogio();
 		resultado = new ResultadoProcessos();
 		
 		filaDeEventos.getEventos().forEach(evento->System.out.println(evento));
 		System.out.println();
+		
+		filaDeEventos.getEventos().forEach(evento->logger.log(evento.toString()));
 		
 		// Fila de Eventos = NULL
 		while( !filaDeEventos.estaVazia() ) {
@@ -91,7 +95,7 @@ public class SimulacaoProcessos implements Simulacao {
 			
 			relogio.avancaAte(evento.getTempoDoEvento());
 			
-			evento.acionaTratamento(filaDeEventos, filaDeProntos, resultado);
+			evento.acionaTratamento(filaDeEventos, filaDeProntos, resultado, logger);
 			
 		}
 		

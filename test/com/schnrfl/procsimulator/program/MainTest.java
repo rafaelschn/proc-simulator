@@ -8,6 +8,7 @@ import com.schnrfl.procsimulator.generation.Gerador;
 import com.schnrfl.procsimulator.generation.GeradorArquivoDat;
 import com.schnrfl.procsimulator.generation.GeradorEstaticoHomologacao;
 import com.schnrfl.procsimulator.generation.ParserArquivoDat;
+import com.schnrfl.procsimulator.simulation.FileLogger;
 import com.schnrfl.procsimulator.simulation.SimulacaoProcessos;
 import com.schnrfl.procsimulator.simulation.Simulador;
 
@@ -19,7 +20,7 @@ public class MainTest {
 		Simulador simulador = new Simulador();
 
 		try {
-			 Gerador gerador = new GeradorArquivoDat("files/entrada.dat", new ParserArquivoDat());
+			 Gerador gerador = new GeradorArquivoDat("files/entrada.dat", new ParserArquivoDat(), new FileLogger());
 			//Gerador gerador = new GeradorEstaticoHomologacao();
 
 			SimulacaoProcessos simulacao = new SimulacaoProcessos(gerador);

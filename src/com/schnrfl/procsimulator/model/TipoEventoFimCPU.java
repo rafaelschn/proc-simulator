@@ -1,5 +1,6 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.Logger;
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
@@ -10,6 +11,7 @@ import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 public class TipoEventoFimCPU implements TipoEvento {
 
 	private void atendeProximoProcessoDaFila(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos) {
+		
 		PCB pcb;
 		//Retira primeiro processo da fila de prontos
 		pcb = filaDeProntos.atendeProcesso();
@@ -17,6 +19,7 @@ public class TipoEventoFimCPU implements TipoEvento {
 		//long instante = evento.getTempoDoEvento() + 1;
 		long instante = evento.getTempoDoEvento();
 		
+		//Informa instante de atendimento na fila
 		pcb.foiAtendidoNaFilaNoInstante(instante);
 		filaDeProntos.iniciaProcessamento();
 		
@@ -27,30 +30,26 @@ public class TipoEventoFimCPU implements TipoEvento {
 	}
 	
 	@Override
-	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
-		
-		//System.out.println(evento);
+	public void trata(ProcessoEvento evento, FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado, Logger logger) {
 		
 		PCB pcb = evento.getPCB();
 		
-		//System.out.println("Tratando Evento Fim CPU (" + pcb.getNumero() + ")...");
-		
+		//Contabiliza ciclos executados pelo processo
 		pcb.executa();
 		
+		//Informa que o processador está liberado para executar outro processo
 		filaDeProntos.finalizouProcessamento();
 		
 		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " saiu do processador");
+		logger.log(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " saiu do processador");
 		
-		//filaDeProntos.removePrimeiroProcesso();
-		
+		//O processo executou todos ciclos?
 		if(pcb.finalizou()) {
 			
 			//Contabiliza
 			pcb.contabilizar(resultado, evento);
 			
-			//Destrói processo
-			//evento = null;
-			
+			//Existem processos esperando na fila?
 			if(filaDeProntos.size() > 0) {
 				atendeProximoProcessoDaFila(evento, filaDeEventos, filaDeProntos);
 			}
@@ -59,7 +58,6 @@ public class TipoEventoFimCPU implements TipoEvento {
 		}
 		
 		//Gera evento Fim ES
-		
 		ProcessoEvento fimES = new ProcessoEvento(evento.getTempoDoEvento(), evento.getTipo(), pcb);
 		fimES.avancaNoTempo(pcb.getTempoCicloES(), new TipoEventoFimES());
 		filaDeEventos.adiciona(fimES);
@@ -67,6 +65,8 @@ public class TipoEventoFimCPU implements TipoEvento {
 		//Fila Vazia?
 		if(filaDeProntos.size() == 0) {
 			System.out.println("[Fila de prontos vazia]");
+			logger.log("[Fila de prontos vazia]");
+			//Pode ir para o próximo evento
 			return;
 		}
 		

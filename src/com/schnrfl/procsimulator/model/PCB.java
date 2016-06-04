@@ -1,5 +1,6 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.Logger;
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
@@ -64,12 +65,15 @@ public class PCB {
 	 * Numero de execucoes já realizadas pelo processo
 	 */
 	private int execucoes;
+	
+	private Logger logger;
 
-	public PCB(int numero, ProcessoTipo tipo, int timeSlice, long tempoDeChegada) {
+	public PCB(int numero, ProcessoTipo tipo, int timeSlice, long tempoDeChegada, Logger logger) {
 		this.numero = numero;
 		this.tipo = tipo;
 		this.timeSlice = timeSlice;
 		this.tempoDeChegada = tempoDeChegada;
+		this.logger = logger;
 
 		ciclosTotal = tipo.getTempoCicloCPU();
 		ciclosExecutados = 0;
@@ -129,6 +133,7 @@ public class PCB {
 		instanteDeChegadaNaFila = instante;
 		
 		System.out.println("[PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante + "]");
+		logger.log("[PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante + "]");
 		
 	}
 
@@ -139,6 +144,7 @@ public class PCB {
 		tempoDeEsperaAcumulado += tempoFila;
 		
 		System.out.println("[PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
+		logger.log("[PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 	}
 	
 	public int executa() {
@@ -151,6 +157,7 @@ public class PCB {
 		ciclosExecutados += ciclosParaExecutar;
 		
 		System.out.println("[PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos]");
+		logger.log("[PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos]");
 
 		++execucoes;
 
@@ -164,8 +171,10 @@ public class PCB {
 	public boolean finalizou() {
 		boolean finalizou = ciclosExecutados == ciclosTotal;
 		
-		if(finalizou)
+		if(finalizou) {
 			System.out.println("[PID " + numero + " finalizado!]");
+			logger.log("[PID " + numero + " finalizado!]");
+		}
 		
 		return finalizou;
 	}
@@ -176,6 +185,7 @@ public class PCB {
 		resultado.concluiuProcesso();
 		
 		System.out.println("[PID " + numero + " ficou no sistema durante " + getDuracaoEmSistema(evento.getTempoDoEvento()) + " unidades de tempo]");
+		logger.log("[PID " + numero + " ficou no sistema durante " + getDuracaoEmSistema(evento.getTempoDoEvento()) + " unidades de tempo]");
 	}
 	
 	private long getDuracaoEmSistema(long tempoDoEvento) {

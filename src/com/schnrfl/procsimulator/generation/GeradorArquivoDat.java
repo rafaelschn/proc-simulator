@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import com.schnrfl.procsimulator.model.Evento;
 import com.schnrfl.procsimulator.model.ProcessoEvento;
+import com.schnrfl.procsimulator.simulation.Logger;
 
 /*
  * Classe responsável pela leitura do arquivo .DAT 
@@ -19,10 +20,12 @@ public class GeradorArquivoDat implements Gerador {
 	private ParserArquivoDat parser;
 	private LinkedList<Evento> eventos;
 	private int pid;
+	private Logger logger;
 
-	public GeradorArquivoDat(String fileName, ParserArquivoDat parser) throws FileNotFoundException, IOException {
+	public GeradorArquivoDat(String fileName, ParserArquivoDat parser, Logger logger) throws FileNotFoundException, IOException {
 		this.fileName = fileName;
 		this.parser = parser;
+		this.logger = logger;
 
 		leArquivo(this.fileName);
 	}
@@ -34,7 +37,7 @@ public class GeradorArquivoDat implements Gerador {
 			eventos = new LinkedList<>();
 			long instante = 0;
 			while ((linha = br.readLine()) != null) {
-				ProcessoEvento evento = parser.parse(linha, pid++, instante);
+				ProcessoEvento evento = parser.parse(linha, pid++, instante, logger);
 				
 				//Achou processo com pid = -1 -> finaliza leitura
 				if (evento == null)

@@ -1,5 +1,6 @@
 package com.schnrfl.procsimulator.model;
 
+import com.schnrfl.procsimulator.simulation.Logger;
 import com.schnrfl.procsimulator.simulation.ResultadoProcessos;
 
 /**
@@ -30,13 +31,13 @@ public class ProcessoEvento implements Evento {
 		this.pcb = pcb;
 	}
 
-	public ProcessoEvento(long tempoDoEvento, TipoEvento tipo, int pid, int timeSlice, ProcessoTipo tipoProcesso) {
+	public ProcessoEvento(long tempoDoEvento, TipoEvento tipo, int pid, int timeSlice, ProcessoTipo tipoProcesso, Logger logger) {
 
 		this.tipo = tipo;
 		this.tempoDoEvento = tempoDoEvento;
 		
 		//Criar PCB do Processo
-		pcb = new PCB(pid, tipoProcesso, timeSlice, tempoDoEvento);
+		pcb = new PCB(pid, tipoProcesso, timeSlice, tempoDoEvento, logger);
 	}
 	
 	public long getTempoDoEvento() {
@@ -51,8 +52,8 @@ public class ProcessoEvento implements Evento {
 		return pcb;
 	}
 	
-	public void acionaTratamento(FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado) {
-		tipo.trata(this, filaDeEventos, filaDeProntos, resultado);
+	public void acionaTratamento(FilaDeEventos filaDeEventos, FilaDeProntos filaDeProntos, ResultadoProcessos resultado, Logger logger) {
+		tipo.trata(this, filaDeEventos, filaDeProntos, resultado, logger);
 	}
 	
 	public void avancaNoTempo(long tempoParaAvancar, TipoEvento tipo) {
