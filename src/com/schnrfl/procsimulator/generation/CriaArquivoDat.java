@@ -9,16 +9,17 @@ import java.io.OutputStreamWriter;
 public class CriaArquivoDat {
 
 	public static void main(String args[]) throws IOException {
-		File fout = new File("files/randomico.dat");
+		int quantidadeDeProcessos = 500;
+		File fout = new File("files/randomico" + quantidadeDeProcessos + ".dat");
 		FileOutputStream fos = new FileOutputStream(fout);
 
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
-		for (int i = 0; i < 5000; i++) {
+		for (int i = 0; i < quantidadeDeProcessos; i++) {
 			int pid = i;
 			long timeSlice = Randomizador.randomiza(1, 10);
 			long tipo = Randomizador.randomiza(0, 1);
-			
+
 			bw.write(pid + ";" + timeSlice + ";" + tipo);
 			bw.newLine();
 		}

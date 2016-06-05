@@ -1,6 +1,8 @@
 package com.schnrfl.procsimulator.simulation;
 
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import com.schnrfl.procsimulator.generation.Gerador;
 import com.schnrfl.procsimulator.model.Evento;
@@ -83,23 +85,31 @@ public class SimulacaoProcessos implements Simulacao {
 		Relogio relogio = new Relogio();
 		resultado = new ResultadoProcessos();
 		
-		filaDeEventos.getEventos().forEach(evento->System.out.println(evento));
-		System.out.println();
+		//filaDeEventos.getEventos().forEach(evento->System.out.println(evento));
+		//System.out.println();
 		
 		filaDeEventos.getEventos().forEach(evento->logger.log(evento.toString()));
 		
 		// Fila de Eventos = NULL
 		while( !filaDeEventos.estaVazia() ) {
 			
+			//Busca próximo evento
 			ProcessoEvento evento = (ProcessoEvento) filaDeEventos.proximo();
 			
+			//Controle do relógio
 			relogio.avancaAte(evento.getTempoDoEvento());
 			
+			//Insere dados do gráfico
+			resultado.informaEstadoDaFilaDeProntos(evento.getTempoDoEvento(), (long)filaDeProntos.size());
+			
+			//Trata o evento
 			evento.acionaTratamento(filaDeEventos, filaDeProntos, resultado, logger);
 			
 		}
 		
 		long duracao = relogio.getInstanteNoTempo();
+		
+		//Define os resultados finais da simulação
 		resultado.setNumeroMaximoDeProcessosNaFilaDeProntos(filaDeProntos.getNumeroMaximoDeProcessosNaFila());
 		resultado.setDuracao(duracao);
 		

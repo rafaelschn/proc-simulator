@@ -15,6 +15,10 @@ public class Simulador {
 		this(new FileLogger());
 	}
 	
+	public Simulacao getSimulacao() {
+		return simulacao;
+	}
+	
 	public Logger getLogger() {
 		return logger;
 	}

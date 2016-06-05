@@ -1,5 +1,7 @@
 package com.schnrfl.procsimulator.simulation;
 
+import java.io.IOException;
+
 /**
  * Classe responsável pelo encapsulamento do resultado da simulação
  */
@@ -19,6 +21,8 @@ public class ResultadoProcessos implements Resultado {
 	private long totalDeProcessosConcluidos;
 
 	private long duracaoRealDaSimulacao;
+	
+	private DadosDoGraficoDaFilaDeProntos dadosGraficoFilaDeProntos;
 
 	public ResultadoProcessos() {
 		this.numeroMaximoDeProcessosNaFilaDeProntos = 0;
@@ -27,6 +31,12 @@ public class ResultadoProcessos implements Resultado {
 		totalDeExecucoes = 0;
 		duracaoDaSimulacao = 0;
 		totalDeProcessosConcluidos = 0;
+		
+		dadosGraficoFilaDeProntos = new DadosDoGraficoDaFilaDeProntos();
+	}
+	
+	public DadosDoGraficoDaFilaDeProntos getDadosGraficoFilaDeProntos() {
+		return dadosGraficoFilaDeProntos;
 	}
 
 	/**
@@ -82,6 +92,34 @@ public class ResultadoProcessos implements Resultado {
 	
 	public void concluiuProcesso() {
 		++totalDeProcessosConcluidos;
+	}
+	
+	public String geraHtml() throws IOException {
+		return new GeradorHtml(this).gera();
+	}
+	
+	public void informaEstadoDaFilaDeProntos(Long instante, Long quantidadeEmFila) {
+		dadosGraficoFilaDeProntos.adiciona(instante, quantidadeEmFila);
+	}
+	
+	public long getDuracaoDaSimulacao() {
+		return duracaoDaSimulacao;
+	}
+	
+	public long getDuracaoRealDaSimulacao() {
+		return duracaoRealDaSimulacao;
+	}
+	
+	public long getTotalDeTempoAcumuladoEmFila() {
+		return totalDeTempoAcumuladoEmFila;
+	}
+	
+	public long getTotalDeProcessosConcluidos() {
+		return totalDeProcessosConcluidos;
+	}
+	
+	public long getTotalDeExecucoes() {
+		return totalDeExecucoes;
 	}
 	
 	@Override

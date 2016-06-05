@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resultado da Simulação</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+	<style>
+	  .grafico {
+	  	width: 100%;
+	  	height: auto;
+	  }
+	</style>
+	
+  </head>
+  <body>
+    <div class="container-fluid">
+      
+      <div class="jumbotron">
+        <div class="page-header">
+          <h1>Resultado da Simulação <small>Subtext for header</small></h1>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+      
+        <div class="panel-heading">
+          <h3 class="panel-title">Dados obtidos</h3>
+        </div>
+        
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">Tempo médio de espera na fila de prontos:</th>
+              <td>99 unidades de tempo</td>
+            </tr>
+            <tr>
+              <th scope="row">Número de processos concluídos por unidade de tempo:</th>
+              <td>99</td>
+            </tr>
+            <tr>
+              <th scope="row">Número médio de execuções:</th>
+              <td>99 por unidade de tempo</td>
+            </tr>
+            <tr>
+              <th scope="row">Número máximo de processos na fila de prontos:</th>
+              <td>99</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      
+      <div class="row">
+        <div class="col-xs-12">
+		  <div id="grafico-de-ocupacao-da-fila" class="grafico"></div>       
+        </div>
+      </div>
+      
+	</div>
+	
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      var draw = function() {
+		var data = new google.visualization.DataTable();
+		
+		data.addColumn('number', 'Instante');
+		data.addColumn('number', 'Em fila');
+		
+		data.addRows(5);
+		
+		data.setValue(0, 0, 1);//instante
+		data.setValue(0, 1, 0);//processos
+	  
+	  	data.setValue(1, 0, 2);
+	  	data.setValue(1, 1, 2);
+	 
+	  	data.setValue(2, 0, 3);
+	  	data.setValue(2, 1, 1);
+	  
+	  	data.setValue(3, 0, 4);
+	  	data.setValue(3, 1, 1);
+	  
+	  	data.setValue(4, 0, 5);
+	  	data.setValue(4, 1, 0);
+	  	
+		var chart = new google.visualization.LineChart(document.getElementById('grafico-de-ocupacao-da-fila'));
+		var options = {
+		  width: 600, 
+		  height: 480, 
+		  title: 'Fila de prontos', 
+		  colors: ['green'], 
+		  curveType: 'function', 
+		  vAxis: {title: "Nº de processos em fila"},
+		  hAxis: {title: "Instante no tempo"}
+		};
+		
+		chart.draw(data, options);
+	  };
+			google.load('visualization', '1', {'packages':['corechart']});
+			google.setOnLoadCallback(draw);
+    </script>
+  
+  </body>
+</html>
