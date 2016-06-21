@@ -16,7 +16,6 @@ public class TempoDeEspera {
 		
 		long tempoDeEspera = Randomizador.randomiza(min, max);
 		
-		System.out.println("Randomizou tempo de espera: " + tempoDeEspera);
 		logger.log("Randomizou tempo de espera: " + tempoDeEspera);
 		
 		return tempoDeEspera;

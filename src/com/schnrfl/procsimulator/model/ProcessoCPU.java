@@ -17,7 +17,10 @@ public class ProcessoCPU extends ProcessoTipoGenerico implements ProcessoTipo {
 	}
 
 	protected int randomizaES() {
-		return getTempoRandomico(50, 200);
+		int tempoRandomizado = getTempoRandomico(50, 200);
+		logger.log("[Randomizou ES: " + tempoRandomizado + "]");
+		
+		return tempoRandomizado;
 	}
 
 	@Override

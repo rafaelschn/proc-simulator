@@ -14,7 +14,6 @@ public class TipoEventoNovoProcesso implements TipoEvento {
 		//Recupera o pcb do evento
 		PCB pcb = evento.getPCB();
 
-		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " entrou no sistema");
 		logger.log(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " entrou no sistema");
 		
 		//Informa instante de chegada na fila
@@ -26,7 +25,6 @@ public class TipoEventoNovoProcesso implements TipoEvento {
 		//Único processo?
 		if ( !filaDeProntos.unicoProcesso() ) {
 			//Processador ocupado, pode ir para o próximo evento
-			System.out.println("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 			logger.log("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 
 			return;

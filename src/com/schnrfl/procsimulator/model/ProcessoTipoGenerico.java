@@ -24,7 +24,6 @@ public abstract class ProcessoTipoGenerico {
 	public int getTempoCicloES() {
 		tempoCicloES = randomizaES();
 		
-		System.out.println("[Tempo de ES randomizado: " + tempoCicloES + "]");
 		logger.log("[Tempo de ES randomizado: " + tempoCicloES + "]");
 		
 		return tempoCicloES;

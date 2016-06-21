@@ -14,7 +14,6 @@ public class TipoEventoFimES implements TipoEvento {
 		
 		PCB pcb = evento.getPCB();
 		
-		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " finalizou ES");
 		logger.log(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " finalizou ES");
 		
 		//long proximoInstante = evento.getTempoDoEvento() + 1;
@@ -27,7 +26,6 @@ public class TipoEventoFimES implements TipoEvento {
 		//Único processo?
 		if( !filaDeProntos.unicoProcesso() ) {
 			//Processador ocupado, pode ir para o próximo evento
-			System.out.println("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 			logger.log("[Processador ocupado para o PID " + pcb.getNumero() + ": " + filaDeProntos.size() + " processo(s) na fila]");
 			return;
 		}

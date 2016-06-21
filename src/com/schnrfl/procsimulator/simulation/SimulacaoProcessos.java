@@ -67,7 +67,6 @@ public class SimulacaoProcessos implements Simulacao {
 		filaDeEventos = new FilaDeEventos(gerador.getElementos());
 		filaDeProntos = new FilaDeProntos(new LinkedList<>());
 		
-		System.out.println("Iniciando simulação...\n");
 		logger.log("Iniciando simulação...\n");
 		
 		inicioExecucao = System.currentTimeMillis();
@@ -76,7 +75,6 @@ public class SimulacaoProcessos implements Simulacao {
 		
 		finalExecucao = System.currentTimeMillis();
 		
-		System.out.println("\nFinalizando simulação...");
 		logger.log("\nFinalizando simulação...");
 	}
 

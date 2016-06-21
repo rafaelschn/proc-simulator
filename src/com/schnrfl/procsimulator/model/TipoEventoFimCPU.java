@@ -40,7 +40,6 @@ public class TipoEventoFimCPU implements TipoEvento {
 		//Informa que o processador está liberado para executar outro processo
 		filaDeProntos.finalizouProcessamento();
 		
-		System.out.println(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " saiu do processador");
 		logger.log(evento.getTempoDoEvento() + " - PID " + pcb.getNumero() + " saiu do processador");
 		
 		//O processo executou todos ciclos?
@@ -64,7 +63,6 @@ public class TipoEventoFimCPU implements TipoEvento {
 		
 		//Fila Vazia?
 		if(filaDeProntos.size() == 0) {
-			System.out.println("[Fila de prontos vazia]");
 			logger.log("[Fila de prontos vazia]");
 			//Pode ir para o próximo evento
 			return;

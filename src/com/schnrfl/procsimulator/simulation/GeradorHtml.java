@@ -34,6 +34,7 @@ public class GeradorHtml {
 		String numeroDeProcessosConcluidosPorUnidadeDeTempo = String
 				.valueOf(resultado.getNumeroDeProcessosConcluidosPorUnidadeDeTempo());
 		String numeroMedioDeExecucoes = String.valueOf(resultado.getNumeroMedioDeExecucoes());
+		String numeroMedioDeExecucoesPorUnidadeDeTempo = String.valueOf(resultado.getNumeroMedioDeExecucoesPorUnidadeDeTempo());
 		String numeroMaximoDeProcessosNaFilaDeProntos = String
 				.valueOf(resultado.getNumeroMaximoDeProcessosNaFilaDeProntos());
 
@@ -46,6 +47,7 @@ public class GeradorHtml {
 		content = content.replace("${tempo_medio_de_espera_na_fila_de_prontos}", tempoMedioDeEsperaNaFilaDeProntos);
 		content = content.replace("${numero_de_processos_concluidos_por_unidade_de_tempo}", numeroDeProcessosConcluidosPorUnidadeDeTempo);
 		content = content.replace("${numero_medio_de_execucoes}", numeroMedioDeExecucoes);
+		content = content.replace("${numero_medio_de_execucoes_por_unidade_de_tempo}", numeroMedioDeExecucoesPorUnidadeDeTempo);
 		content = content.replace("${numero_maximo_de_processos_na_fila_de_prontos}", numeroMaximoDeProcessosNaFilaDeProntos);
 
 		Set<Entry<Long, Long>> valoresDoGrafico = resultado.getDadosGraficoFilaDeProntos().getDados().entrySet();

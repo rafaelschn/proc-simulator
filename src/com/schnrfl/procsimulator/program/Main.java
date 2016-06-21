@@ -26,8 +26,9 @@ public class Main {
 		try {
 			//Criação do gerador de eventos
 			//Gerador gerador = new GeradorArquivoDat("files/randomico5000.dat", new ParserArquivoDat(), logger);
+			Gerador gerador = new GeradorArquivoDat("files/randomico500.dat", new ParserArquivoDat(), logger);
 			//Gerador gerador = new GeradorArquivoDat("files/entrada.dat", new ParserArquivoDat(), logger);
-			Gerador gerador = new GeradorEstaticoHomologacao(logger);
+			//Gerador gerador = new GeradorEstaticoHomologacao(logger);
 			
 			//Criação do Motor de Simulação com eventos exógenos oriundos do arquivo .DAT
 			Simulacao simulacao = new SimulacaoProcessos(gerador);

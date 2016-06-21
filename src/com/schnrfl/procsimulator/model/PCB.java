@@ -132,7 +132,6 @@ public class PCB {
 		
 		instanteDeChegadaNaFila = instante;
 		
-		System.out.println("[PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante + "]");
 		logger.log("[PID " + numero + " chegou na fila(" + passagensPelaFila + ") no instante " + instante + "]");
 		
 	}
@@ -143,7 +142,6 @@ public class PCB {
 		tempoFila = instanteDeAtendimentoNaFila - instanteDeChegadaNaFila;
 		tempoDeEsperaAcumulado += tempoFila;
 		
-		System.out.println("[PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 		logger.log("[PID " + numero + " foi atendido na fila(" + passagensPelaFila + ") no instante " + instanteDeAtendimentoNaFila + " [TE: " + tempoFila + " TA: " + tempoDeEsperaAcumulado + "]");
 	}
 	
@@ -156,7 +154,6 @@ public class PCB {
 
 		ciclosExecutados += ciclosParaExecutar;
 		
-		System.out.println("[PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos]");
 		logger.log("[PID " + numero + " executou " + ciclosExecutados + " de " + ciclosTotal + " ciclos]");
 
 		++execucoes;
@@ -172,7 +169,6 @@ public class PCB {
 		boolean finalizou = ciclosExecutados == ciclosTotal;
 		
 		if(finalizou) {
-			System.out.println("[PID " + numero + " finalizado!]");
 			logger.log("[PID " + numero + " finalizado!]");
 		}
 		
@@ -184,7 +180,6 @@ public class PCB {
 		resultado.acumulaExecucoes(execucoes);
 		resultado.concluiuProcesso();
 		
-		System.out.println("[PID " + numero + " ficou no sistema durante " + getDuracaoEmSistema(evento.getTempoDoEvento()) + " unidades de tempo]");
 		logger.log("[PID " + numero + " ficou no sistema durante " + getDuracaoEmSistema(evento.getTempoDoEvento()) + " unidades de tempo]");
 	}
 	

@@ -61,6 +61,12 @@ public class ResultadoProcessos implements Resultado {
 	 * Número médio de execuções
 	 */
 	public double getNumeroMedioDeExecucoes() {
+		double numeroMedioDeExecucoes = (double) totalDeExecucoes / totalDeProcessosConcluidos;
+		
+		return numeroMedioDeExecucoes;
+	}
+	
+	public double getNumeroMedioDeExecucoesPorUnidadeDeTempo() {
 		double numeroMedioDeExecucoes = (double) totalDeExecucoes / duracaoDaSimulacao;
 		
 		return numeroMedioDeExecucoes;
